@@ -52,7 +52,6 @@ JSBridge.subscribe('PAGE_EVENT', function (params) {
 // data: 为传递的数据
 JSBridge.publish('PAGE_EVENT', {eventName: 'onTest',data: {}})
 ```
-### 视图控制类
 
 首先需要对WKWebView初始化，
 
@@ -113,5 +112,63 @@ WKWebView事件回调处理
 }
 ```
 
-### 逻辑服务类
+### 视图层代码
 
+```javascript
+
+  function onTest() {
+      console.log('aaa')
+      FinChatJSBridge.subscribe('PAGE_EVENT', function (params) {
+                                document.getElementById('testId').innerHTML = params.data.title                                })
+      FinChatJSBridge.publish('PAGE_EVENT', {
+        eventName: 'onTest',data: {}
+      })
+      
+  }
+```
+
+```html
+ <div id="testId">我来自视图层!</div><input type="button" value="调用JS逻辑层setData" style="border-radius:15px;background:#ed0c50;border: #EDD70C;color: white;font-size: 14px; width: 80%;" onclick="onTest();" />
+```
+### 逻辑层代码
+
+```javascript
+   // page 对像模拟
+   var Page = {
+          setData: function(data) {
+               ServiceJSBridge.publish('PAGE_EVENT', {
+                     eventName: 'onPageDataChange',data:data
+                   })
+          },
+          methods: {
+              onTest: function() {
+                  Page.setData({
+                               title: '我来自JS代码更新'
+                               })
+                  console.log('my on Test')
+              }
+          }
+      }
+  var onWebviewEvent = function (fn) {
+    ServiceJSBridge.subscribe('PAGE_EVENT', function (params) {
+      var data = params.data,eventName = params.eventName;
+    fn({
+        data: data,
+        eventName: eventName
+      })
+    })
+  }
+  var doWebviewEvent = function ( pEvent, params) { // do dom ready
+    if (Page.methods.hasOwnProperty(pEvent)) {
+        Page.methods[pEvent].call(params);
+    }
+  }
+  onWebviewEvent(function (params) {
+    var eventName = params.eventName
+    var data = params.data
+    return doWebviewEvent( eventName, data)
+  })
+
+```
+
+具体代码请参考([https://github.com/finochat/myapplet](https://github.com/finochat/myapplet))

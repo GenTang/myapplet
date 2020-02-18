@@ -172,3 +172,7 @@ WKWebView事件回调处理
 ```
 
 具体代码请参考([https://github.com/finochat/myapplet](https://github.com/finochat/myapplet))
+
+## 联系我们，了解更多内容
+
+![](https://mp.finogeeks.com/img/home_plus_qr.6d3fd749.png)

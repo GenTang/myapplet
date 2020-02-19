@@ -175,6 +175,4 @@ WKWebView事件回调处理
 
 ## 联系我们，了解更多内容
 
-![image.png](https://upload-images.jianshu.io/upload_images/10272390-43f9689010c29f84.png?imageMogr2/auto-orient/strip|imageView2/2/w/1200/format/webp)
-
 ![](https://mp.finogeeks.com/img/home_plus_qr.6d3fd749.png)

@@ -163,58 +163,11 @@
       }
   </script>
   <script>
-      var wxml = '<view>hello world!</view>'
-      var vNode = {
-          "tagName":"body",
-          "props":{
-            "bindtap":"onTest"
-          },
-          "children":[
-              {
-                  "tagName":"wx-view",
-                  "customComponentId":null,
-                  "componentInstanceId":null,
-                  "props":{
-
-                  },
-                  "children":[
-                      {
-                          "text":"hello world!"
-                      }
-                  ],
-                  "newProps":[
-
-                  ],
-                  "descendants":1
-              }
-          ],
-          "newProps":[
-
-          ],
-          "descendants":2
-      }
-  var vNodeElement = '<div id="testId" onclick="onTest();">hello world  1111 !</div>'
-  function vNodeToElement() {
-      return vNodeElement;
-  }
-  function replaceDocumentElement(vNode,element) {
-      element.innerHTML = vNodeToElement()
-  }
-  document.addEventListener('DOMContentLoaded', function () {
-     document.dispatchEvent(new CustomEvent("generateFuncReady", {}))
-  });
-  
-  document.addEventListener(
-  'generateFuncReady',
-                            function(event) {
-                            replaceDocumentElement(vNode,document.body)
-                            }
-  )
+     
   function onTest() {
       console.log('aaa')
       FinChatJSBridge.subscribe('PAGE_EVENT', function (params) {
-                                document.getElementById('testId').innerHTML = JSON.stringify(params)
-                                })
+                                document.getElementById('testId').innerHTML = params.data.title                                })
       FinChatJSBridge.publish('PAGE_EVENT', {
         eventName: 'onTest',data: {}
       })
@@ -223,5 +176,6 @@
   </script>
 </head>
 <body>
+    <div id="testId">我来自视图层!</div><input type="button" value="调用JS逻辑层setData" style="border-radius:15px;background:#ed0c50;border: #EDD70C;color: white;font-size: 14px; width: 80%;" onclick="onTest();" />
 </body>
 </html>
